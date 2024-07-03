@@ -1,0 +1,13 @@
+
+spring:
+  application:
+    name: crud-example-tirrcai
+
+datasource:
+  my-connection:
+      jdbc-url: jdbc:postgresql://localhost:5432/books_system
+      username: tirricai
+      password: 12345
+      maximum-pool-size: 10
+      pool-name: "crud-pool"
+      auto-commit: true
