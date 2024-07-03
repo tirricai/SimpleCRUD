@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 //Se encarga de la conexion con la base de datos (jdbc)
 @Repository
@@ -39,6 +40,21 @@ public class BookRepository {
         return insert.executeAndReturnKey(
                 new MapSqlParameterSource("name", newBook.name)
         ).longValue();
+    }
+
+    public Optional<Book> findById(Long id) {
+        String sql = "SELECT * FROM " + table + " WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource("id", id);
+        List<Book> results = jdbcTemplate.query(sql, params, bookMapper);
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+    }
+
+    public void updateBook(Book updatedBook) {
+        String sql = "UPDATE " + table + " SET name = :name WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("name", updatedBook.getName())
+                .addValue("id", updatedBook.getId());
+        jdbcTemplate.update(sql, params);
     }
 
     public static class BookMapper implements RowMapper<Book> {

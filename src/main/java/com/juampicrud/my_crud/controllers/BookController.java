@@ -2,10 +2,8 @@ package com.juampicrud.my_crud.controllers;
 
 import com.juampicrud.my_crud.model.Book;
 import com.juampicrud.my_crud.services.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,11 @@ public class BookController {
     @PostMapping("/book")
     public long createBook(@RequestBody Book newBook) {
         return bookService.createBook(newBook);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
+        Book book = bookService.updateBook(id, updatedBook);
+        return ResponseEntity.ok(book);
     }
 }

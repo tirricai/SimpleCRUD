@@ -5,6 +5,7 @@ import com.juampicrud.my_crud.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -21,5 +22,17 @@ public class BookService {
 
     public long createBook(Book newBook) {
        return bookRepository.createBook(newBook);
+    }
+
+    public Book updateBook(Long id, Book updatedBook) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
+            Book existingBook = optionalBook.get();
+            existingBook.setName(updatedBook.getName());
+            bookRepository.updateBook(existingBook);
+            return existingBook;
+        } else {
+            throw new RuntimeException("Book not found with id " + id);
+        }
     }
 }
