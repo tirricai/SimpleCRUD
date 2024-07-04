@@ -35,4 +35,9 @@ public class BookService {
             throw new RuntimeException("Book not found with id " + id);
         }
     }
+
+    public void deleteBook(Long id) {
+        bookRepository.deleteBook(id);
+    }
+
 }
